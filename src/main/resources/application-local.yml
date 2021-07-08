@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: demo
+  #mongodb
+  data:
+    mongodb:
+      host: localhost  #ip
+      port: 27017   #端口
+      database: elevator  #智慧电梯数据库名
+      authentication-database: admin  #启动authentication鉴权的数据库
+  #返回页面的前缀和后缀
+
+
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+  thymeleaf:
+    cache: false
+
+  #热部署配置
+  devtools:
+    restart:
+      #热部署生效
+      enabled: true
+      #设置重启的目录
+      additional-paths: resources/**,static/**,templates/**
+      #该目录下的内容修改不重启
+      exclude: data/**
+
+#########配置端口
+server:
+  port: 8080
+
+
+#########配置日志
+logging:
+  level:
+    com.qt.demo: info

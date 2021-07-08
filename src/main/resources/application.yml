@@ -1,30 +1,3 @@
 spring:
-  application:
-    name: demo
-  #mongodb
-  data:
-    mongodb:
-      host: 10.9.244.20  #ip
-      port: 27017   #端口
-      username: root  # 用户
-      password: 88stIVA  # 密码
-      database: test  #田林数据库名
-      #database-elevator: elevator #智慧电梯数据库名
-      authentication-database: admin  #启动authentication鉴权的数据库
-  #返回页面的前缀和后缀
-  mvc:
-    view:
-      prefix: /
-      suffix: .html
-  thymeleaf:
-    cache: false
-
-  #热部署配置
-  devtools:
-    restart:
-      #热部署生效
-      enabled: true
-      #设置重启的目录
-      additional-paths: resources/**,static/**,templates/**
-      #该目录下的内容修改不重启
-      exclude: data/**
+  profiles:
+    active: local
