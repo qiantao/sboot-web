@@ -1,4 +1,4 @@
-package com.qt.demo.controller;
+package com.qt.demo.controller.proxy;
 
 import com.qt.demo.manager.proxy.ProxyManager;
 import org.springframework.beans.factory.annotation.Autowired;

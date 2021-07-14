@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,7 +67,7 @@ public class SpringProxyHandler {
         log.info("aspect->Around annotation method ");
         //执行原本方法
         String result = joinPoint.proceed().toString();
-        result.intern();
+
         return result;
     }
 }
