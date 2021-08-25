@@ -3,7 +3,7 @@ package com.qt.demo.enums;
 import lombok.Getter;
 
 @Getter
-public enum TscStatusEnum {
+public enum RequestStatusEnum {
 
     OK(0,"success","请求成功"),
     USER_NOT_EXIT(11,"user not exit","用户不存在"),
@@ -16,7 +16,7 @@ public enum TscStatusEnum {
     private String value;
     private String msg;
 
-    TscStatusEnum(Integer code, String value , String msg) {
+    RequestStatusEnum(Integer code, String value , String msg) {
         this.code = code;
         this.value = value;
         this.msg = msg;

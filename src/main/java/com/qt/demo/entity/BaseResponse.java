@@ -1,7 +1,7 @@
 package com.qt.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.qt.demo.enums.TscStatusEnum;
+import com.qt.demo.enums.RequestStatusEnum;
 import lombok.Data;
 
 import java.util.Collections;
@@ -22,36 +22,36 @@ public class BaseResponse<T> {
         return this;
     }
 
-    public static <T> BaseResponse<T> result(TscStatusEnum tscStatusEnum, T data) {
-        if (tscStatusEnum == null) {
+    public static <T> BaseResponse<T> result(RequestStatusEnum requestStatusEnum, T data) {
+        if (requestStatusEnum == null) {
             return result();
         }
         BaseResponse<T> response = new BaseResponse<>();
-        response.code = tscStatusEnum.getCode().toString();
-        response.message = tscStatusEnum.getMsg();
+        response.code = requestStatusEnum.getCode().toString();
+        response.message = requestStatusEnum.getMsg();
         response.data = data;
         return response;
     }
 
     public static <T> BaseResponse<T> result(T data) {
         BaseResponse<T> response = new BaseResponse<>();
-        response.code = TscStatusEnum.OK.getCode().toString();
-        response.message = TscStatusEnum.OK.getMsg();
+        response.code = RequestStatusEnum.OK.getCode().toString();
+        response.message = RequestStatusEnum.OK.getMsg();
         response.data = data;
         return response;
     }
-    public static <T> BaseResponse<T> result(TscStatusEnum tscStatusEnum) {
+    public static <T> BaseResponse<T> result(RequestStatusEnum requestStatusEnum) {
         BaseResponse<T> response = new BaseResponse<>();
-        response.code = tscStatusEnum.getCode().toString();
-        response.message = tscStatusEnum.getMsg();
+        response.code = requestStatusEnum.getCode().toString();
+        response.message = requestStatusEnum.getMsg();
         response.data = (T) Collections.emptyMap();
         return response;
     }
 
     public static <T> BaseResponse<T> result() {
         BaseResponse<T> response = new BaseResponse<>();
-        response.code = TscStatusEnum.OK.getCode().toString();
-        response.message = TscStatusEnum.OK.getMsg();
+        response.code = RequestStatusEnum.OK.getCode().toString();
+        response.message = RequestStatusEnum.OK.getMsg();
         response.data = (T) Collections.emptyMap();
         return response;
     }

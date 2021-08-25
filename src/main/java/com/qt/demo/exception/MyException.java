@@ -1,6 +1,6 @@
 package com.qt.demo.exception;
 
-import com.qt.demo.enums.TscStatusEnum;
+import com.qt.demo.enums.RequestStatusEnum;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -14,16 +14,16 @@ import java.util.Map;
  * @version: V1.0
  */
 @Data
-public class TscException extends Exception{
+public class MyException extends Exception{
     private Map<String,String> errorInfo = new HashMap<>();
-    private TscStatusEnum tscStatusEnum;
+    private RequestStatusEnum requestStatusEnum;
 
-    public TscException(TscStatusEnum exceptionEnum){
+    public MyException(RequestStatusEnum exceptionEnum){
         super(exceptionEnum.getMsg());
-        this.tscStatusEnum = exceptionEnum;
+        this.requestStatusEnum = exceptionEnum;
     }
 
-    public TscException put(String key,String value){
+    public MyException put(String key, String value){
         this.errorInfo.put(key,value);
         return this;
     }
