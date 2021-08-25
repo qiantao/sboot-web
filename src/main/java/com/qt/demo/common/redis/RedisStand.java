@@ -1,8 +1,11 @@
 package com.qt.demo.common.redis;
 
+import com.qt.demo.consts.RedisConst;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -15,7 +18,11 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisStand implements RedisCache{
 
-    private StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
+
+    public RedisStand(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
 
     @Override
@@ -31,6 +38,12 @@ public class RedisStand implements RedisCache{
 
     @Override
     public Boolean remove(String key) {
+
         return redisTemplate.delete(key);
+    }
+
+    @Override
+    public Set<String> getKeys(String pattern){
+        return redisTemplate.keys(pattern);
     }
 }

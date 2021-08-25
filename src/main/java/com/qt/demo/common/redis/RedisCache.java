@@ -1,5 +1,7 @@
 package com.qt.demo.common.redis;
 
+import java.util.Set;
+
 /**
  * @ClassName:
  * @Description:
@@ -14,4 +16,6 @@ public interface RedisCache {
     Boolean set(String key,String value,Long seconds);
 
     Boolean remove(String key);
+
+    Set<String> getKeys(String pattern);
 }

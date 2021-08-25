@@ -69,3 +69,6 @@ components:
     port: 3306
     user: root
     pwd: qiantao2114
+
+
+springfox.documentation.swagger.v2.path: /api-docs
