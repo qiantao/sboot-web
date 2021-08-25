@@ -1,7 +1,5 @@
 package com.qt.demo.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -14,7 +12,6 @@ public class GridPO {
 
     @Id
     @Field("_id")
-    @JSONField(serialize = false)
     private ObjectId id;
     @Field("member_id")
     private Integer memberId;

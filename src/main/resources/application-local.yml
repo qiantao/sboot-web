@@ -9,6 +9,18 @@ spring:
       database: elevator  #智慧电梯数据库名
       authentication-database: admin  #启动authentication鉴权的数据库
   #返回页面的前缀和后缀
+  #mysql 数据源
+  datasource:
+    url: jdbc:mysql://${components.mysql.host}:${components.mysql.port}/senseface?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: ${components.mysql.user}
+    password: ${components.mysql.pwd}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    port: ${components.redis.port}
+    host: ${components.redis.host}
+    password: ${components.redis.pwd}
+    database: 1
+
 
 
   mvc:
@@ -37,3 +49,23 @@ server:
 logging:
   level:
     com.qt.demo: info
+  config: classpath:logback-spring.xml
+
+
+####mybatis
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+components:
+  ip: 172.20.26.91
+  redis:
+    host: ${components.ip}
+    port: 10200
+    pwd: 88stIVA
+  mysql:
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    pwd: qiantao2114

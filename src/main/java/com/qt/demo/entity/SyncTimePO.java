@@ -11,6 +11,8 @@ public class SyncTimePO {
 
     @Field("time_type")
     private TimeType timeType;
+    @Field("busi_key")
+    private String busiKey;
     @Field("sync_time")
     private Long SyncTime;
 }

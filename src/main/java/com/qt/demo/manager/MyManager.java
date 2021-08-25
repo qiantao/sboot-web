@@ -1,11 +1,14 @@
 package com.qt.demo.manager;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.json.JSONUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
 import com.qt.demo.entity.GridPO;
 import com.qt.demo.entity.Person;
+import com.qt.demo.entity.SyncTimePO;
+import com.qt.demo.enums.TimeType;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +38,17 @@ public class MyManager {
 //        inserDB(Person.builder().name("张三").age(13).sex(SexEnums.MAN.name()).build());
 //        inserDB(Person.builder().name("李四").age(14).sex(SexEnums.MAN.name()).build());
 //        inserDB(Person.builder().name("王五").age(15).sex(SexEnums.MAN.name()).build());
-        GridPO gridPO = mongoTemplate.findOne(
-                new Query(Criteria.where("_id").
-                        is("60ececacb7c0aa3ea1c07b83")), GridPO.class);
-
-        gridPO = mongoTemplate.findById(new ObjectId("60ececacb7c0aa3ea1c07b83"), GridPO.class);
-        if(gridPO==null){
-            return "fail";
+        String busiKey = "busiKey";
+        SyncTimePO one = mongoTemplate.findOne(new Query().addCriteria(Criteria.where("time_type").is(TimeType.EVENT))
+                .addCriteria(Criteria.where("busi_key").is(busiKey)), SyncTimePO.class);
+        if(one == null){
+            one = new SyncTimePO();
+            one.setTimeType(TimeType.EVENT);
+            one.setSyncTime(0L);
+            one.setBusiKey(busiKey);
+            mongoTemplate.insert(one);
         }
-//        Update update = new Update();
-//        update.set("member_id", 52);
-//        mongoTemplate.findAndModify(
-//                new Query().addCriteria(Criteria.where("_id").is(new ObjectId(gridPO.getId()))),
-//                update,
-//                GridPO.class);
-
-        return gridPO.getId() +":" +gridPO.getMemberId();
+        return JSONUtil.toJsonStr(one);
     }
 
     public void query(){
