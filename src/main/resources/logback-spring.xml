@@ -13,13 +13,13 @@
     <!--配置日志文件(File)-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--设置策略-->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件路径：这里%d{yyyyMMddHHmm}表示按天分类日志-->
-            <FileNamePattern>${LOG_HOME}/%d{yyyyMMddHHmm}/${APP_NAME}.log</FileNamePattern>
-            <!--日志保留天数-->
-            <MaxHistory>15</MaxHistory>
-<!--            <MaxFileSise>10MB</MaxFileSise>-->
-        </rollingPolicy>
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            &lt;!&ndash;日志文件路径：这里%d{yyyyMMddHHmm}表示按天分类日志&ndash;&gt;-->
+<!--            <FileNamePattern>${LOG_HOME}/%d{yyyyMMdd}/${APP_NAME}.log</FileNamePattern>-->
+<!--            &lt;!&ndash;日志保留天数&ndash;&gt;-->
+<!--            <MaxHistory>2</MaxHistory>-->
+<!--&lt;!&ndash;            <MaxFileSise>10MB</MaxFileSise>&ndash;&gt;-->
+<!--        </rollingPolicy>-->
         <!--设置格式-->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
@@ -32,6 +32,12 @@
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
             <MaxFileSize>10MB</MaxFileSize>
         </triggeringPolicy>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/${APP_NAME}.%i.log</fileNamePattern>
+            <maxFileSize>100KB</maxFileSize>
+            <MaxHistory>2</MaxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
     </appender>
 
     <!-- 多环境配置 按照active profile选择分支 -->

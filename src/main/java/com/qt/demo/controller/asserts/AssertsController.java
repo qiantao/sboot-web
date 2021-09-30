@@ -4,6 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @ClassName:
  * @Description:
@@ -24,4 +27,17 @@ public class AssertsController {
         assert false:"异常信息";
         return "assert 通过";
     }
+
+    @GetMapping("msg")
+    public String msg(){
+        Map<String,Object> map = new HashMap();
+        map.put("\"errCode\"","\"200\"");
+        map.put("\"msg\"","\"预约日期选择成功！\"");
+        map.put("\"dd\"","false");
+        map.put("\"ff\"","\"fdsakjhf2%7……*\"");
+
+        return map.toString();
+
+    }
+
 }

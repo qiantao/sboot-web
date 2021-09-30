@@ -19,4 +19,7 @@ public interface RedisConst {
      * value: List<Long>
      */
     String USER_GROUP = "USER_GROUP_%s";
+
+    String WX_TOKEN = "WX_TOKEN";
+
 }

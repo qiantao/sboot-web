@@ -7,6 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName:
@@ -39,10 +43,29 @@ public class TestController {
         return "pages/index";
     }
 
+    @RequestMapping("/photo")
+    public String photo(Model model) {
+        return "pages/photo";
+    }
+
+    @RequestMapping("/*.html")
+    public String order(Model model) {
+//        Request
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = servletRequestAttributes.getRequest();
+        String requestURI = request.getRequestURI();
+        System.out.println(requestURI);
+        requestURI.lastIndexOf("/");
+        String substring = requestURI.substring(requestURI.lastIndexOf("/")+1, requestURI.lastIndexOf("."));
+        System.out.println(substring);
+        return "pages/"+substring;
+    }
+
 
     @PostMapping("/change_json")
     @ResponseBody
     public String changeJson(@RequestBody String str) {
+
         return "success";
     }
 

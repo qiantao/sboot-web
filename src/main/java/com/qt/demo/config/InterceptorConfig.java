@@ -1,12 +1,11 @@
 package com.qt.demo.config;
 
 import com.qt.demo.interceptor.RequestInterceptor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,30 +16,25 @@ import java.util.List;
  * @version: V1.0
  */
 @Configuration
+@EnableConfigurationProperties(InterceptorProperties.class)
 public class InterceptorConfig extends WebMvcConfigurerAdapter {
     private final RequestInterceptor requestInterceptor;
-
-    public InterceptorConfig(RequestInterceptor requestInterceptor) {
+    private InterceptorProperties interceptorProperties;
+    public InterceptorConfig(RequestInterceptor requestInterceptor, InterceptorProperties interceptorProperties) {
         this.requestInterceptor = requestInterceptor;
+        this.interceptorProperties = interceptorProperties;
     }
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        List<String> urlList = new ArrayList<>();
-//        urlList.add("/login");
-//        urlList.add("/user/*");
-//        registry.addInterceptor(requestInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns(urlList);
-//
-//        super.addInterceptors(registry);
+        List<String> urlList = interceptorProperties.getExcludePath();
+        List<String> path = interceptorProperties.getPath();
+        registry.addInterceptor(requestInterceptor)
+                .addPathPatterns(path)
+                .excludePathPatterns(urlList);
+
+        super.addInterceptors(registry);
     }
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("swagger-ui.html")
-//                .addResourceLocations("classpath:/META-INF/resources/");
-//        registry.addResourceHandler("/webjars/**")
-//                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-//    }
 
 }

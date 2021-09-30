@@ -10,7 +10,7 @@ import com.qt.demo.annotation.proxy.ProxyAnnotation;
  * @version: V1.0
  */
 public interface ProxyService {
-    String testProxy();
-
     String testAnnotation(String type);
+
+    String testProxy();
 }

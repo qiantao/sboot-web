@@ -1,6 +1,7 @@
 spring:
   application:
     name: demo
+
   #mongodb
   data:
     mongodb:
@@ -8,10 +9,13 @@ spring:
       port: 27017   #端口
       database: elevator  #智慧电梯数据库名
       authentication-database: admin  #启动authentication鉴权的数据库
+      username: root
+      password: qiantao2114
+
   #返回页面的前缀和后缀
   #mysql 数据源
   datasource:
-    url: jdbc:mysql://${components.mysql.host}:${components.mysql.port}/senseface?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true
+    url: jdbc:mysql://${components.mysql.host}:${components.mysql.port}/wx?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: ${components.mysql.user}
     password: ${components.mysql.pwd}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,9 +24,22 @@ spring:
     host: ${components.redis.host}
     password: ${components.redis.pwd}
     database: 1
+  task:
+    scheduling:
+      thread-name-prefix: scheduling-qt-
+      pool:
+        size: 2
+      shutdown:
+        await-termination: true #关闭线程
+        await-termination-period: 30s #时间
 
-
-
+    execution:
+      thread-name-prefix: execution-qt-
+      pool:
+        core-size: 4 #核心线程数
+        max-size: 5 #最大线程数
+        allow-core-thread-timeout: true #当前线程数=coresize 线程是否会退出
+        keep-alive: 60s #当前线程数>coresize 控制线程存活时间
   mvc:
     view:
       prefix: /
@@ -43,7 +60,8 @@ spring:
 #########配置端口
 server:
   port: 8080
-
+  servlet:
+    context-path: /sboot
 
 #########配置日志
 logging:
@@ -59,16 +77,23 @@ mybatis:
     map-underscore-to-camel-case: true
 
 components:
-  ip: 172.20.26.91
   redis:
-    host: ${components.ip}
-    port: 10200
-    pwd: 88stIVA
+    host: 127.0.0.1
+    port: 6379
+    pwd: qiantao2114
   mysql:
     host: 127.0.0.1
     port: 3306
     user: root
     pwd: qiantao2114
 
-
-springfox.documentation.swagger.v2.path: /api-docs
+interceptor:
+  excludePath:
+    - /login
+    - /user/*
+    - /init/*
+    - /swagger*/**
+    - /v2/**
+    - /webjars/**
+  path:
+    - /**

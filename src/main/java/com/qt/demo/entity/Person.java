@@ -1,7 +1,9 @@
 package com.qt.demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -20,6 +22,8 @@ import java.util.List;
 @Document("person")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person implements Comparable, Comparator {
     @Field("name")
     private String name;
