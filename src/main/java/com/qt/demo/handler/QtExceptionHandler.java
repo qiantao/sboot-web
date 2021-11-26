@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @version: V1.0
  */
 @ControllerAdvice
-public class TscExceptionHandler {
+public class QtExceptionHandler {
 
     @ExceptionHandler( value = {Exception.class})
     public ResponseEntity<BaseResponse<ExceptionResponse>> exceptionHandler(Exception e){
