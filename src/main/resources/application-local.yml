@@ -12,18 +12,60 @@ spring:
       username: root
       password: qiantao2114
 
-  #返回页面的前缀和后缀
+  # kafka配置
+  kafka:
+    producer:
+      bootstrap-servers: 10.10.200.21:9092
+      topic: workflow_result
+      key-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+      buffer-memory: 10485760
+      batch-size: 2048
+      retries: 1
+    consumer:
+      bootstrap-servers: 10.10.200.21:9092
+      topic: workflow_result
+      enable-auto-commit: false
+      max-poll-records: 30
+      group-id: test06   # ${spring.application.name}
+      key-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      auto-offset-reset: earliest
+    listener:
+      concurrency: 5
+      ack-mode: manual_immediate
+      type: batch
+      poll-timeout: 3000
+
+
   #mysql 数据源
   datasource:
     url: jdbc:mysql://${components.mysql.host}:${components.mysql.port}/wx?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: ${components.mysql.user}
     password: ${components.mysql.pwd}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #rabbitmq
+  rabbitmq:
+    port: 5672
+    addresses: 10.10.16.105
+    host: 10.10.16.105
+    username: admin
+    password: admin
+#    listener:
+#      direct:
+#        # 消息开启手动确认
+#        acknowledge-mode: manual
+    virtual-host: mq_host
+
+
+  #redis
   redis:
     port: ${components.redis.port}
     host: ${components.redis.host}
     password: ${components.redis.pwd}
     database: 1
+  #spring 任务配置
   task:
     scheduling:
       thread-name-prefix: scheduling-qt-
@@ -40,10 +82,12 @@ spring:
         max-size: 5 #最大线程数
         allow-core-thread-timeout: true #当前线程数=coresize 线程是否会退出
         keep-alive: 60s #当前线程数>coresize 控制线程存活时间
+  #返回页面的前缀和后缀
   mvc:
     view:
       prefix: /
       suffix: .html
+
   thymeleaf:
     cache: false
 

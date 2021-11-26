@@ -1,6 +1,8 @@
 package com.qt.demo.scheduler;
 
+import com.qt.demo.common.kafka.KafKaProducer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +20,34 @@ import java.util.Date;
 @Slf4j
 public class TestScheduler {
 
-    @Scheduled(fixedDelay = 60000)
-    public void logScheduler(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    @Autowired
+    private KafKaProducer kafKaProducer;
 
-//        for (int i = 0; i < 10; i++) {
-//            log.info(Thread.currentThread().getName() +" %%%%% "+sdf.format(new Date())+"****"+i);
-//        }
+
+    int i = 0;
+    @Scheduled(fixedDelay = 60000)
+    public void sendKafkaMessage(){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String format = sdf.format(new Date());
+//        kafKaProducer.send(format+"qt测试。。。");
+        }catch (Exception e){
+            log.error("sendKafkaMessage err {}",e.getMessage());
+        }
+    }
+
+
+    @Scheduled(cron = "0/30 * * * * ?")
+    public void cronTask(){
+        try {
+            long l = System.currentTimeMillis()+7000;
+            while(System.currentTimeMillis() < l && i%3 ==0){
+
+            }
+            log.info("{},{}",Thread.currentThread().getName(),i);
+            i++;
+        }catch (Exception e){
+            log.error("cronTask err {}",e.getMessage());
+        }
     }
 }
