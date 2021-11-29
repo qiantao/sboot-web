@@ -1,4 +1,4 @@
-package com.qt.demo.common.mq.config;
+package com.qt.demo.common.mq.spring.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;

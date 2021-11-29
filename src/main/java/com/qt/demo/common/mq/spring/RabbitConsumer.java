@@ -1,4 +1,4 @@
-package com.qt.demo.common.mq;
+package com.qt.demo.common.mq.spring;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

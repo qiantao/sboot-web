@@ -1,4 +1,4 @@
-package com.qt.demo.common.mq.config;
+package com.qt.demo.common.mq.spring.config;
 
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.beans.factory.annotation.Qualifier;
