@@ -14,7 +14,7 @@ import java.util.Map;
  * @version: V1.0
  */
 @Data
-public class MyException extends Exception{
+public class MyException extends RuntimeException{
     private Map<String,String> errorInfo = new HashMap<>();
     private RequestStatusEnum requestStatusEnum;
 

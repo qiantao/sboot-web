@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 public class RabbitConsumer {
 
-    @RabbitListener(queues = "TestDirectQueue")//监听的队列名称 TestDirectQueue
-    public void process(String testMessage) {
-        System.out.println("TestDirectQueue 消费者收到消息  : " + testMessage);
-    }
+//    @RabbitListener(queues = "TestDirectQueue")//监听的队列名称 TestDirectQueue
+//    public void process(String testMessage) {
+//        System.out.println("TestDirectQueue 消费者收到消息  : " + testMessage);
+//    }
 }

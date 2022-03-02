@@ -2,6 +2,8 @@ package com.qt.demo.controller.redis;
 
 import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiOperation;
+import org.redisson.Redisson;
+import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,5 +46,14 @@ public class RedisController {
         }
         Set<String> members = redisTemplate.opsForSet().members(key);
         return members.toString();
+    }
+
+    @GetMapping("con")
+    public String setGetAll(){
+        Config config = new Config();
+        config.useSingleServer();
+
+        Redisson.create();
+        return "";
     }
 }

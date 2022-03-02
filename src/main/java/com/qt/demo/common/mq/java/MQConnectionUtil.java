@@ -14,6 +14,7 @@ import java.util.List;
 @Slf4j
 public class MQConnectionUtil {
     public static String schem = "http";
+//    public static String address = "127.0.0.1";
     public static String address = "10.10.16.105";
     public static Integer port = 5672;
     public static String queryUrl = schem+"://"+address+":"+15672+"/api/";
@@ -44,11 +45,14 @@ public class MQConnectionUtil {
             factory.setUsername(user);
             //设置密码
             factory.setPassword(pwd);
+            //设置超时时间
+//            factory.setConnectionTimeout(3000);
             connection = factory.newConnection();
             return connection;
         }
         catch (Exception e){
             log.error("获取mq链接失败");
+            e.printStackTrace();
         }
         return connection;
     }

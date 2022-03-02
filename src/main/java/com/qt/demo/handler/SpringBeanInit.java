@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class SpringBeanInit implements  InitializingBean {
+public class SpringBeanInit implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
-      log.info("222222");
+      log.info("InitializingBean 启动成功");
     }
 }

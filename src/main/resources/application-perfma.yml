@@ -5,7 +5,7 @@ spring:
   #mongodb
   data:
     mongodb:
-      host: localhost  #ip
+      host: 10.10.16.105  #ip
       port: 27017   #端口
       database: elevator  #智慧电梯数据库名
       authentication-database: admin  #启动authentication鉴权的数据库
@@ -46,12 +46,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   #rabbitmq
-  rabbitmq:
-    port: 5672
-    host: 127.0.0.1
-    username: admin
-    password: admin
-    virtual-host: mq_host
+#  rabbitmq:
+#    port: 5672
+#    addresses: 10.10.16.105
+#    host: 10.10.16.105
+#    username: admin
+#    password: admin
+#    virtual-host: mq_host
 
 
   #redis
@@ -117,14 +118,14 @@ mybatis:
 
 components:
   redis:
-    host: 127.0.0.1
+    host: 10.10.16.105
     port: 6379
-    pwd: qiantao2114
+    pwd: Admin888.
   mysql:
-    host: 127.0.0.1
+    host: 10.10.16.105
     port: 3306
     user: root
-    pwd: qiantao2114
+    pwd: perfma888.
 
 interceptor:
   excludePath:
@@ -136,5 +137,3 @@ interceptor:
     - /webjars/**
   path:
     - /**
-
-showLog: false

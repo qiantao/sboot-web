@@ -15,11 +15,6 @@ import sun.misc.BASE64Encoder;
 public class DemoApplication {
 
 	public static void main(String[] args) {
-//		 String DATA = "XAccessKey:U2FsdGVkX1/GGZG1vdctM9+BnB8MJKWcbHJKOsijI+8=";
-//		BASE64Encoder encoder = new BASE64Encoder();
-//		String data = encoder.encode(DATA.getBytes());
-////		log.info("BASE64加密：{}",data);
-//		System.out.println(data);
 		SpringApplication.run(DemoApplication.class, args);
 	}
 

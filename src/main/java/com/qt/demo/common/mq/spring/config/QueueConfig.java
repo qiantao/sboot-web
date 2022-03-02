@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class QueueConfig {
-    public static final String TestDirectQueue = "TestDirectQueue";
+    public static final String TestDirectQueue = "yaoyao2";
 
     @Bean(TestDirectQueue)
     public Queue TestDirectQueue() {

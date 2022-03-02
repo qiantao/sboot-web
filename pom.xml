@@ -161,6 +161,18 @@
 			<version>1.6.1</version>
 
 		</dependency>
+		<!-- eventBus 监听-->
+		<dependency>
+			<groupId>org.greenrobot</groupId>
+			<artifactId>eventbus</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+		<!-- redisson -->
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>3.5.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
