@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qt.demo.scheduler.mapper.DashboardSchedulerInfoDao">
+   <resultMap id="DashboardSchedulerInfoBaseMap" type="com.qt.demo.scheduler.domain.DashboardSchedulerInfo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="scheduler_key" jdbcType="VARCHAR" property="schedulerKey" />
+        <result column="scheduler_name" jdbcType="VARCHAR" property="schedulerName" />
+        <result column="cron" jdbcType="VARCHAR" property="cron" />
+        <result column="retry_time" jdbcType="INTEGER" property="retryTime" />
+        <result column="current_exec_time" jdbcType="TIMESTAMP" property="currentExecTime" />
+        <result column="next_exec_time" jdbcType="TIMESTAMP" property="nextExecTime" />
+        <result column="result" jdbcType="VARCHAR" property="result" />
+   </resultMap>
+
+    <sql id="DashboardSchedulerInfoBaseSql">
+        id,creator_id,create_time,modifier_id,modify_time,scheduler_key,scheduler_name,cron,retry_time,current_exec_time,next_exec_time,result
+    </sql>
+
+    <sql id="TableName">
+        t_dashboard_scheduler_info
+    </sql>
+
+    <!-- 根据主键删除数据-->
+    <delete id="deleteByIdList">
+        delete from
+        <include refid="TableName"/>
+        where id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 查询多条记录-->
+    <select id="selectListByEntity" parameterType="com.qt.demo.scheduler.domain.DashboardSchedulerInfo" resultMap="DashboardSchedulerInfoBaseMap">
+        select 
+        <include refid="DashboardSchedulerInfoBaseSql" />
+        from 
+        <include refid="TableName"/>
+        <trim prefix="WHERE" prefixOverrides="AND |OR "> 
+            <if test="id != null">
+               AND id = #{id,jdbcType=BIGINT} 
+            </if>
+            <if test="creatorId != null">
+               AND creator_id = #{creatorId,jdbcType=BIGINT} 
+            </if>
+            <if test="createTime != null">
+               AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+            </if>
+            <if test="modifierId != null">
+               AND modifier_id = #{modifierId,jdbcType=BIGINT} 
+            </if>
+            <if test="modifyTime != null">
+               AND modify_time = #{modifyTime,jdbcType=TIMESTAMP} 
+            </if>
+            <if test="schedulerKey != null">
+               AND scheduler_key = #{schedulerKey,jdbcType=VARCHAR} 
+            </if>
+            <if test="schedulerName != null">
+               AND scheduler_name = #{schedulerName,jdbcType=VARCHAR} 
+            </if>
+            <if test="retryTime != null">
+               AND retry_time = #{retryTime,jdbcType=INTEGER} 
+            </if>
+            <if test="currentExecTime != null">
+               AND current_exec_time = #{currentExecTime,jdbcType=TIMESTAMP} 
+            </if>
+            <if test="nextExecTime != null">
+               AND next_exec_time = #{nextExecTime,jdbcType=TIMESTAMP} 
+            </if>
+            <if test="result != null">
+               AND result = #{result,jdbcType=VARCHAR} 
+            </if>
+        </trim >
+    </select>
+
+    <!-- 查询一条记录-->
+    <select id="selectByEntity" parameterType="com.qt.demo.scheduler.domain.DashboardSchedulerInfo" resultMap="DashboardSchedulerInfoBaseMap">
+        select 
+        <include refid="DashboardSchedulerInfoBaseSql" />
+        from 
+        <include refid="TableName"/>
+        <trim prefix="WHERE" prefixOverrides="AND |OR "> 
+            <if test="id != null">
+                AND id = #{id,jdbcType=BIGINT} 
+            </if>
+            <if test="creatorId != null">
+                AND creator_id = #{creatorId,jdbcType=BIGINT} 
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+            </if>
+            <if test="modifierId != null">
+                AND modifier_id = #{modifierId,jdbcType=BIGINT} 
+            </if>
+            <if test="modifyTime != null">
+                AND modify_time = #{modifyTime,jdbcType=TIMESTAMP} 
+            </if>
+            <if test="schedulerKey != null">
+                AND scheduler_key = #{schedulerKey,jdbcType=VARCHAR} 
+            </if>
+            <if test="schedulerName != null">
+                AND scheduler_name = #{schedulerName,jdbcType=VARCHAR} 
+            </if>
+            <if test="retryTime != null">
+                AND retry_time = #{retryTime,jdbcType=INTEGER} 
+            </if>
+            <if test="currentExecTime != null">
+                AND current_exec_time = #{currentExecTime,jdbcType=TIMESTAMP} 
+            </if>
+            <if test="nextExecTime != null">
+                AND next_exec_time = #{nextExecTime,jdbcType=TIMESTAMP} 
+            </if>
+            <if test="result != null">
+                AND result = #{result,jdbcType=VARCHAR} 
+            </if>
+        </trim >
+    </select>
+
+    <!-- 根据schedulerKey查询数据-->
+    <select id="findListBySchedulerKeyList"
+            resultMap="DashboardSchedulerInfoBaseMap">
+        select
+        <include refid="DashboardSchedulerInfoBaseSql" />
+        from
+        <include refid="TableName"/>
+        where scheduler_key in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 插入非空数据 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.qt.demo.scheduler.domain.DashboardSchedulerInfo">
+        insert into 
+        <include refid="TableName"/>
+        <trim  prefix="(" suffix=")" suffixOverrides=","> 
+            creator_id,
+            modifier_id,
+            scheduler_key,
+            scheduler_name,
+            <if test="retryTime != null">
+                retry_time,
+            </if>
+            current_exec_time,
+            next_exec_time,
+            result,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{creatorId,jdbcType=BIGINT},
+            #{modifierId,jdbcType=BIGINT},
+            #{schedulerKey,jdbcType=VARCHAR},
+            #{schedulerName,jdbcType=VARCHAR},
+            <if test="retryTime != null">
+                #{retryTime,jdbcType=INTEGER},
+            </if>
+            #{currentExecTime,jdbcType=TIMESTAMP},
+            #{nextExecTime,jdbcType=TIMESTAMP},
+            #{result,jdbcType=VARCHAR},
+        </trim>
+
+    </insert>
+
+    <!-- 插入非空数据集合 -->
+    <insert id="insertSelectiveList" useGeneratedKeys="true" keyProperty="id">
+        <foreach collection="list" item="item" separator=";">
+            insert into 
+            <include refid="TableName"/>
+            <trim  prefix="(" suffix=")" suffixOverrides=","> 
+                creator_id,
+                modifier_id,
+                scheduler_key,
+                scheduler_name,
+                cron,
+                retry_time,
+                current_exec_time,
+                next_exec_time,
+                result,
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                #{item.creatorId,jdbcType=BIGINT},
+                #{item.modifierId,jdbcType=BIGINT},
+                #{item.schedulerKey,jdbcType=VARCHAR},
+                #{item.schedulerName,jdbcType=VARCHAR},
+                #{item.cron,jdbcType=VARCHAR},
+                #{item.retryTime,jdbcType=INTEGER},
+                #{item.currentExecTime,jdbcType=TIMESTAMP},
+                #{item.nextExecTime,jdbcType=TIMESTAMP},
+                #{item.result,jdbcType=VARCHAR},
+            </trim>
+        </foreach>
+
+    </insert>
+
+    <!-- 选择更新-->
+    <update id="updateByEntitySelective" parameterType="com.qt.demo.scheduler.domain.DashboardSchedulerInfo">
+        update 
+        <include refid="TableName" />
+        <trim prefix="set" suffixOverrides=","> 
+            creator_id = #{creatorId,jdbcType=BIGINT},
+            modifier_id = #{modifierId,jdbcType=BIGINT},
+            scheduler_key = #{schedulerKey,jdbcType=VARCHAR},
+            scheduler_name = #{schedulerName,jdbcType=VARCHAR},
+            retry_time = #{retryTime,jdbcType=INTEGER},
+            current_exec_time = #{currentExecTime,jdbcType=TIMESTAMP},
+            next_exec_time = #{nextExecTime,jdbcType=TIMESTAMP},
+            result = #{result,jdbcType=VARCHAR},
+        </trim>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateListById">
+       <foreach collection="list" item="item" separator=";">
+            update
+            <include refid="TableName" />
+            <trim prefix="set" suffixOverrides=",">
+                creator_id = #{item.creatorId,jdbcType=BIGINT},
+                modifier_id = #{item.modifierId,jdbcType=BIGINT},
+                scheduler_key = #{item.schedulerKey,jdbcType=VARCHAR},
+                scheduler_name = #{item.schedulerName,jdbcType=VARCHAR},
+                cron = #{item.cron,jdbcType=VARCHAR},
+                retry_time = #{item.retryTime,jdbcType=INTEGER},
+                current_exec_time = #{item.currentExecTime,jdbcType=TIMESTAMP},
+                next_exec_time = #{item.nextExecTime,jdbcType=TIMESTAMP},
+                result = #{item.result,jdbcType=VARCHAR},
+            </trim>
+            where id = #{item.id,jdbcType=BIGINT}
+       </foreach>
+    </update>
+    <update id="updateBySchedulerKey">
+        update
+        <include refid="TableName" />
+        <trim prefix="set" suffixOverrides=",">
+            creator_id = #{creatorId,jdbcType=BIGINT},
+            modifier_id = #{modifierId,jdbcType=BIGINT},
+            scheduler_name = #{schedulerName,jdbcType=VARCHAR},
+            cron = #{cron,jdbcType=VARCHAR},
+            retry_time = #{retryTime,jdbcType=INTEGER},
+            current_exec_time = #{currentExecTime,jdbcType=TIMESTAMP},
+            next_exec_time = #{nextExecTime,jdbcType=TIMESTAMP},
+            result = #{result,jdbcType=VARCHAR},
+        </trim>
+        where scheduler_key = #{schedulerKey,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

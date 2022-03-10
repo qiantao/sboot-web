@@ -25,7 +25,7 @@ public class TestScheduler {
 
 
     int i = 0;
-    @Scheduled(fixedDelay = 60000)
+//    @Scheduled(fixedDelay = 60000)
     public void sendKafkaMessage(){
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -37,7 +37,7 @@ public class TestScheduler {
     }
 
 
-    @Scheduled(cron = "0/30 * * * * ?")
+//    @Scheduled(cron = "0/30 * * * * ?")
     public void cronTask(){
         try {
             long l = System.currentTimeMillis()+7000;

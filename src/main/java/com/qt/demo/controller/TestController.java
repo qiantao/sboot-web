@@ -54,18 +54,18 @@ public class TestController {
         return "pages/photo";
     }
 
-//    @RequestMapping("/*.html")
-//    public String order(Model model) {
-////        Request
-//        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        HttpServletRequest request = servletRequestAttributes.getRequest();
-//        String requestURI = request.getRequestURI();
-//        System.out.println(requestURI);
-//        requestURI.lastIndexOf("/");
-//        String substring = requestURI.substring(requestURI.lastIndexOf("/")+1, requestURI.lastIndexOf("."));
-//        System.out.println(substring);
-//        return "pages/"+substring;
-//    }
+    @RequestMapping("/*.html")
+    public String order(Model model) {
+//        Request
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = servletRequestAttributes.getRequest();
+        String requestURI = request.getRequestURI();
+        System.out.println(requestURI);
+        requestURI.lastIndexOf("/");
+        String substring = requestURI.substring(requestURI.lastIndexOf("/")+1, requestURI.lastIndexOf("."));
+        System.out.println(substring);
+        return "pages/"+substring;
+    }
 
 
     @PostMapping("/change_json")
