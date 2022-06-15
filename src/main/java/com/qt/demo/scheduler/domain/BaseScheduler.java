@@ -5,6 +5,7 @@ import com.qt.demo.util.CronExpression;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -16,6 +17,9 @@ public abstract class BaseScheduler implements Runnable{
 
     @Autowired
     private DashboardSchedulerService dashboardSchedulerService;
+
+    @Value("${execTask}")
+    private boolean execTask;
 
     private String cron = "";
 
@@ -32,6 +36,9 @@ public abstract class BaseScheduler implements Runnable{
     @Override
     public void run() {
 
+        if(!execTask){
+            return;
+        }
         DashboardSchedulerInfo dashboardSchedulerInfo = new DashboardSchedulerInfo();
         dashboardSchedulerInfo.setCurrentExecTime(new Date());
         dashboardSchedulerInfo.setCron(cron);

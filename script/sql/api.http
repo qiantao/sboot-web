@@ -1,0 +1,19 @@
+GET http://localhost:8080/events/query_by_task_id?task_id=2106X3341853
+Accept: application/json
+
+###
+
+POST http://localhost:8080/events/count_by_source_types
+Content-Type: application/json
+
+{"period":{"end_time":1626683356000,"start_time":1624032000000}}
+
+###
+
+
+POST http://localhost:8080/events/count_by_types
+Content-Type: application/json
+
+{"period":{"end_time":1626683356000,"start_time":1624032000000}}
+
+###

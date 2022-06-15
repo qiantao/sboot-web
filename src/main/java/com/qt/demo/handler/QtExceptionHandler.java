@@ -29,6 +29,7 @@ public class QtExceptionHandler {
             return ResponseEntity.ok(BaseResponse.result(myException.getRequestStatusEnum(),exceptionResponse));
         }
 
+
         exceptionResponse.setMsg(e.getMessage());
         e.printStackTrace();
         return ResponseEntity.ok(BaseResponse.result(RequestStatusEnum.ERROR,exceptionResponse));

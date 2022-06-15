@@ -142,9 +142,8 @@
             modifier_id,
             scheduler_key,
             scheduler_name,
-            <if test="retryTime != null">
-                retry_time,
-            </if>
+            retry_time,
+            cron,
             current_exec_time,
             next_exec_time,
             result,
@@ -154,9 +153,8 @@
             #{modifierId,jdbcType=BIGINT},
             #{schedulerKey,jdbcType=VARCHAR},
             #{schedulerName,jdbcType=VARCHAR},
-            <if test="retryTime != null">
-                #{retryTime,jdbcType=INTEGER},
-            </if>
+            #{retryTime,jdbcType=INTEGER},
+            #{cron},
             #{currentExecTime,jdbcType=TIMESTAMP},
             #{nextExecTime,jdbcType=TIMESTAMP},
             #{result,jdbcType=VARCHAR},
