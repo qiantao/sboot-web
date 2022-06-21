@@ -1,2 +1,2 @@
 org.springframework.context.ApplicationContextInitializer=\
-  com.qt.demo.controller.MyApplicationContextInitializer
+  com.qt.demo.config.MyApplicationContextInitializer

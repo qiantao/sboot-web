@@ -8,13 +8,10 @@ import java.util.Collections;
 
 @Data
 public class BaseResponse<T> {
-    @JsonProperty("code")
     private String code = null;
 
-    @JsonProperty("message")
     private String message = null;
 
-    @JsonProperty("data")
     private T data = null;
 
     public BaseResponse code(String code) {

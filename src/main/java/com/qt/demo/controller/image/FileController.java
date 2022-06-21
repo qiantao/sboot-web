@@ -1,4 +1,4 @@
-package com.qt.demo.controller;
+package com.qt.demo.controller.image;
 
 import cn.hutool.json.JSONUtil;
 import com.google.common.io.Files;
