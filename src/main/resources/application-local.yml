@@ -1,7 +1,12 @@
 spring:
   application:
     name: demo
-
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      # 重写了CommonsMultipartResolver,需要使用
+      enabled: true
+      max-request-size: 100MB
   #mongodb
   data:
     mongodb:
@@ -136,6 +141,16 @@ interceptor:
     - /webjars/**
   path:
     - /**
+# es ip
+elasticsearch:
+  ip: 10.10.16.207  # ip，支持集群配置，每个ip之间用”,”隔开
+  port: 9200  # 端口号
+  http:
+    connectTimeOut: 30000  # 连接超时时间
+    socketTimeOut: 30000   # socket超时时间
+    connectionRequestTimeOut: 30000  # 获取连接的超时时间
+    maxConnectNum: 100    # 最大连接数
+    maxConnectPerRoute: 100   # 最大路由连接数
 
 showLog: false
 execTask: false

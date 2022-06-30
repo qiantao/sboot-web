@@ -23,29 +23,27 @@ import java.io.OutputStream;
 public class FileController {
 
     @PostMapping("/upload")
-    public String upload(@RequestParam("file") MultipartFile file,
-                         @RequestBody UploadBodyDO uploadBodyDO) {
-        log.info("request body ={}", JSONUtil.toJsonStr(uploadBodyDO));
+    public String upload(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return "Please select a file to upload";
         }
 
         try {
-            String path =  System.getProperty("user.dir") +"/"+"file/";
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-//            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            String allPath = path + uploadBodyDO.getFileName();
-            File f = new File(allPath);
-            if(!f.getParentFile().exists()){
-                f.getParentFile().mkdirs();
-            }
-            if(!f.exists()){
-                f.createNewFile();
-            }
-            Files.write(bytes, f);
+//            String path =  System.getProperty("user.dir") +"/"+"file/";
+//            // Get the file and save it somewhere
+//            byte[] bytes = file.getBytes();
+////            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+//            String allPath = path + uploadBodyDO.getFileName();
+//            File f = new File(allPath);
+//            if(!f.getParentFile().exists()){
+//                f.getParentFile().mkdirs();
+//            }
+//            if(!f.exists()){
+//                f.createNewFile();
+//            }
+//            Files.write(bytes, f);
 
-            log.info("upload file success, path = {}",allPath);
+//            log.info("upload file success, path = {}",allPath);
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";
