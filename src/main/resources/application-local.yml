@@ -154,3 +154,4 @@ elasticsearch:
 
 showLog: false
 execTask: false
+showSwagger: true

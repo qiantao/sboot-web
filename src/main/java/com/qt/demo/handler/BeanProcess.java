@@ -1,14 +1,10 @@
 package com.qt.demo.handler;
 
-import com.qt.demo.common.event.EventBaseListener;
 import lombok.extern.slf4j.Slf4j;
-import org.greenrobot.eventbus.EventBus;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * @ClassName:

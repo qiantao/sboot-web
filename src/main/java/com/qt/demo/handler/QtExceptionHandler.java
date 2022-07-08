@@ -9,6 +9,8 @@ import com.qt.demo.entity.BaseResponse;
 import com.qt.demo.entity.ExceptionResponse;
 import com.qt.demo.enums.RequestStatusEnum;
 import com.qt.demo.exception.MyException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class QtExceptionHandler implements ResponseBodyAdvice<Object> {
 
+    @Value("${showSwagger:true}")
+    private boolean falg;
     @ExceptionHandler(value = {Exception.class})
     @NotControllerResponseAdvice
     public ResponseEntity<BaseResponse<ExceptionResponse>> exceptionHandler(Exception e){
@@ -56,8 +60,12 @@ public class QtExceptionHandler implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
         // response是BaseResponse类型，或者注释了NotControllerResponseAdvice都不进行包装
-        return !(methodParameter.getParameterType().isAssignableFrom(BaseResponse.class)
-                || methodParameter.hasMethodAnnotation(NotControllerResponseAdvice.class));
+        if(!falg) {
+            return !(methodParameter.getParameterType().isAssignableFrom(BaseResponse.class)
+                    || methodParameter.getParameterType().isAssignableFrom(ResponseEntity.class)
+                    || methodParameter.hasMethodAnnotation(NotControllerResponseAdvice.class));
+        }
+        return false;
     }
 
     /**

@@ -37,6 +37,7 @@ public class SwaggerConfig {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
+                .enable(true)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.qt.demo.controller")) //这里写的是API接口所在的包位置
                 .paths(PathSelectors.any())

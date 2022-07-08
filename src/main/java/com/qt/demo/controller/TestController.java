@@ -54,7 +54,7 @@ public class TestController {
         return "pages/photo";
     }
 
-    @RequestMapping("/*.html")
+//    @RequestMapping("/*.html")
     public String order(Model model) {
 //        Request
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
