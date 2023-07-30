@@ -1,8 +1,10 @@
 package com.qt.demo;
 
+import com.qt.demo.entity.GridPO;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -16,9 +18,13 @@ class DemoApplicationTests {
     }
 
     public static void main(String[] args) {
-        byte[] b = new byte[]{107, 101, 121, 61, 100, 97, 116, 97, 37, 50, 70, 37, 50, 70, 37, 50, 70, 37, 50, 70, 37, 50, 70, 37, 50, 70};
-        System.out.println(b.toString());
-        // 创建任务队列
+//        byte[] b = new byte[]{107, 101, 121, 61, 100, 97, 116, 97, 37, 50, 70, 37, 50, 70, 37, 50, 70, 37, 50, 70, 37, 50, 70, 37, 50, 70};
+//        System.out.println(b.toString());
+        Field[] fields = GridPO.class.getDeclaredFields();
+        for (Field field : fields) {
+            System.out.println(field.getName());
+        }
+        // 创建任务队
 //        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
 //        // 执行任务 1
 //        scheduledExecutorService.scheduleAtFixedRate(() -> {
