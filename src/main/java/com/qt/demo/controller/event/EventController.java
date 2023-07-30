@@ -1,5 +1,6 @@
 package com.qt.demo.controller.event;
 
+import cn.hutool.json.JSONUtil;
 import com.qt.demo.common.event.EventBeanFactory;
 import com.qt.demo.common.event.EventEntity;
 import com.qt.demo.common.sqlser.SqlServerConnectionUtil;
@@ -29,6 +30,7 @@ public class EventController {
         eventEntity2.setTimeStamp(System.currentTimeMillis()+"");
         eventEntity2.setBusiKey("qtqtqtqt222");
         EventBeanFactory.getEventBus(EventBeanFactory.SecondEventName).post(eventEntity2);
+
         return "ok";
     }
 
