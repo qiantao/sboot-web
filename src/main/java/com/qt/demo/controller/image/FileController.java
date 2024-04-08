@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.google.common.io.Files;
 import com.qt.demo.entity.UploadBodyDO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +14,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * 文件处理接口
@@ -119,8 +122,41 @@ public class FileController {
         if (!file.exists()) {
             throw new RuntimeException(name + "文件不存在");
         }
-//        response.setContentType("application/force-download");
-//        response.addHeader("Content-Disposition", "attachment;fileName=" + name);
+        response.setCharacterEncoding("utf-8");
+
+        response.setContentType("application/force-download");
+        response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(name,"UTF-8"));
+
+        byte[] buffer = new byte[1024];
+        try (FileInputStream fis = new FileInputStream(file);
+             BufferedInputStream bis = new BufferedInputStream(fis)) {
+
+            ServletOutputStream  os = response.getOutputStream();
+
+            int i = bis.read(buffer);
+            while (i != -1) {
+                os.write(buffer, 0, i);
+                i = bis.read(buffer);
+            }
+        }
+    }
+
+    @PostMapping("/download/post")
+    public void logDownloadGet(@RequestBody Map<String,Object> map, HttpServletResponse response) throws Exception {
+        String name = map.get("fileName")==null?"":map.get("fileName").toString();
+        if(StringUtils.isBlank(name)){
+            return;
+        }
+        String path =  System.getProperty("user.dir") +"/"+"file/";
+        String allPath = path + name;
+        File file = new File(allPath);
+
+        if (!file.exists()) {
+            throw new RuntimeException(name + "文件不存在");
+        }
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/force-download");
+        response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(name,"UTF-8"));
 
         byte[] buffer = new byte[1024];
         try (FileInputStream fis = new FileInputStream(file);

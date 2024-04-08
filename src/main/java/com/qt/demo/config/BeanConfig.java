@@ -1,8 +1,6 @@
 package com.qt.demo.config;
 
 import org.apache.http.HttpHost;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -42,4 +40,5 @@ public class BeanConfig {
         RestHighLevelClient client = new RestHighLevelClient(builder);
         return client;
     }
+
 }

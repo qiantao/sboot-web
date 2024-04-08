@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
@@ -20,7 +21,13 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+        log.info("url=={}", request.getRequestURI());
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for (Cookie cookie : cookies) {
+                System.out.println(cookie.getName()+":"+cookie.getValue());
+            }
+        }
         //在请求头中设置userInfo信息
         Map<String,String> headerMap = new HashMap<>();
 //        headerMap.put(HeadConst.USER_INFO,user.getUserId().toString());

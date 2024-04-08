@@ -1,17 +1,14 @@
 package com.qt.demo.handler;
 
 import cn.hutool.json.JSONUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qt.demo.annotation.proxy.NotControllerResponseAdvice;
-import com.qt.demo.entity.BasePageResponse;
 import com.qt.demo.entity.BaseResponse;
 import com.qt.demo.entity.ExceptionResponse;
 import com.qt.demo.enums.RequestStatusEnum;
 import com.qt.demo.exception.MyException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -20,6 +17,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import java.util.Objects;
 
 /**
  * @ClassName:
@@ -40,8 +39,12 @@ public class QtExceptionHandler implements ResponseBodyAdvice<Object> {
 
         if(e instanceof MyException){
             MyException myException = (MyException) e;
+            RequestStatusEnum requestStatusEnum = myException.getRequestStatusEnum();
+            if(Objects.equals(requestStatusEnum,RequestStatusEnum.ERROR)){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(BaseResponse.result());
+            }
             exceptionResponse.setMsg(myException.getMessage());
-            exceptionResponse.setErrorInfo(((MyException) e).getErrorInfo());
+            exceptionResponse.setErrorInfo(myException.getErrorInfo());
             return ResponseEntity.ok(BaseResponse.result(myException.getRequestStatusEnum(),exceptionResponse));
         }
 

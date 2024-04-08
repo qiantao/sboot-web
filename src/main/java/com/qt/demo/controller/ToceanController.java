@@ -6,26 +6,17 @@ import com.google.common.io.Files;
 import com.qt.demo.common.mysql.HKSource;
 import com.qt.demo.common.mysql.MyBatitsDao;
 import com.qt.demo.common.redis.RedisCache;
+import com.qt.demo.enums.RequestStatusEnum;
+import com.qt.demo.exception.MyException;
 import com.qt.demo.manager.MyManager;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName:
@@ -35,96 +26,53 @@ import java.util.*;
  * @version: V1.0
  */
 @RestController
-@RequestMapping("/xocean")
+@RequestMapping("/testma")
 @Slf4j
-public class XoceanController {
+public class ToceanController {
 
     private MyManager myManager;
     private RedisCache redisCache;
 
-    public XoceanController(MyManager myManager, RedisCache redisCache){
+    private Boolean flag = true;
+    private Long time = 1L;
+
+    public ToceanController(MyManager myManager, RedisCache redisCache){
         this.myManager = myManager;
         this.redisCache = redisCache;
     }
-
-    @GetMapping("/excel")
-    public String parseExcel(@RequestParam("excelName") String excelName) throws Exception{
-        String path =  System.getProperty("user.dir") +"/"+"file/";
-        String filePath=path+excelName;
-        Map<String, ArrayList> columnData = new HashMap<>();
-        // 读取文件流
-        FileInputStream fileInputStream = new FileInputStream(filePath);
-        Sheet sheet = null;
-        Workbook workbook=null;
-        if (excelName.contains(".xlsx")) {
-            workbook = new XSSFWorkbook(fileInputStream);
-        } else if (excelName.contains(".xls")) {
-            workbook = new HSSFWorkbook(fileInputStream);
-        }else{
-            System.out.println("不是excle文件");
-        }
-        sheet = workbook.getSheetAt(0);
-        // 获取列数和行数
-        int columnCount = sheet.getRow(0).getLastCellNum();
-        int rowCount = sheet.getLastRowNum();
-
-        // 遍历每一列
-        for (int i = 0; i < columnCount; i++) {
-            // 获取第一行的数据作为key
-            Cell cell = sheet.getRow(0).getCell(i);
-            String key = cell.getStringCellValue();
-            ArrayList<Object> values = new ArrayList<>();// 除第一行以外其他行的数据
-            // 遍历该列除第一行以外的每一行
-            for (int j = 0; j < rowCount; j++) {
-                cell = sheet.getRow(j + 1).getCell(i);
-                // 如果单元格内的数据为空，输出空字符串，否则，添加到列表中
-                if (cell != null) {
-                    if (cell.getCellType() == CellType.BOOLEAN) {
-                        values.add(j, String.valueOf(cell.getBooleanCellValue()));
-                    } else if (cell.getCellType() == CellType.STRING) {
-                        Charset charset = StandardCharsets.UTF_8;
-                        values.add(j, new String(cell.getStringCellValue()));
-                    } else if (cell.getCellType() == CellType.NUMERIC) {
-                        short format = cell.getCellStyle().getDataFormat();
-                        if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                            Date d = cell.getDateCellValue();
-                            DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-                            values.add(j, formater.format(d));
-                        } else if (format == 14 || format == 31 || format == 57 || format == 58) {
-                            // 日期
-                            DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-                            Date date = DateUtil.getJavaDate(cell.getNumericCellValue());
-                            values.add(j, formater.format(date));
-                        } else if (format == 20 || format == 32) {
-                            // 时间
-                            DateFormat formater = new SimpleDateFormat("HH:mm");
-                            Date date = DateUtil.getJavaDate(cell.getNumericCellValue());
-                            values.add(j, formater.format(date));
-                        } else {
-                            DecimalFormat df = new DecimalFormat("0");
-                            values.add(j, df.format(cell.getNumericCellValue()));
-                        }
-                    } else if (cell.getCellType() == CellType.BLANK) {
-                        values.add(j, "");
-                    }
-                } else {
-                    values.add(j, "");
-                }
-            }
-            // 将该列的数据存储到字典中
-            columnData.put(key, values);
-        }
-        workbook.close();
-        return JSONUtil.toJsonStr(columnData);
+    @GetMapping("/changeState")
+    public Boolean changeState(){
+        flag = !flag;
+        return flag;
     }
+
+    public void checkState() {
+        long l = System.currentTimeMillis() - time;
+        if(l>20*1000){
+            time = System.currentTimeMillis();
+            return;
+        }else{
+            flag = false;
+        }
+        if(!flag) throw new MyException(RequestStatusEnum.ERROR);
+
+    }
+
+
     @PostMapping("/post/json")
     public String postJson(@RequestBody Map<String,Object> map){
+        checkState();
         return JSONUtil.toJsonStr(map);
     }
 
-
     @GetMapping("/get")
     public String get(@RequestParam Map<String,Object> map){
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        checkState();
         return JSONUtil.toJsonStr(map);
     }
 
@@ -153,8 +101,7 @@ public class XoceanController {
                 // Get the file and save it somewhere
                 byte[] bytes = file1.getBytes();
 //            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-                String allPath = path +file1.getOriginalFilename();
-//                String allPath = path + "data_file1_"+file1.getOriginalFilename();
+                String allPath = path + "data_file1_"+file1.getOriginalFilename();
                 File f = new File(allPath);
                 if(!f.getParentFile().exists()){
                     f.getParentFile().mkdirs();
@@ -283,5 +230,4 @@ public class XoceanController {
         List<String> strings1 = MyBatitsDao.queryColumnInfoByTableName(con, Lists.newArrayList("openapi_case_key"), "perfma_xocean");
         return strings1.toString();
     }
-
 }

@@ -1,11 +1,11 @@
 package com.qt.demo.filter;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
 import java.io.IOException;
-import java.util.logging.LogRecord;
 
 /**
  * @ClassName:
@@ -14,19 +14,20 @@ import java.util.logging.LogRecord;
  * @date: 2021/07/23 15:19
  * @version: V1.0
  */
-@WebFilter(filterName = "encodeFilter",urlPatterns = "/*")
-public class EncodeFilter implements Filter {
-    private String code = "utf-8";
+@WebFilter(filterName = "qtFilter",urlPatterns = "/aaa")
+@Slf4j
+public class QtFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        String code = filterConfig.getInitParameter("code");
+        log.error("unionpay--- qtFilter---init");
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        servletRequest.setCharacterEncoding(code);
-        servletResponse.setCharacterEncoding(code);
-        filterChain.doFilter(servletRequest, servletResponse);
+        int port = servletRequest.getServerPort();
+        log.error("unionpay--- qtFilter---dofilter,port={}",port);
+        
     }
 
     @Override

@@ -32,6 +32,7 @@ public class Person implements Comparable, Comparator {
     @Field("sex")
     private String sex;
 
+    private Long no;
     private char c;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -49,5 +50,6 @@ public class Person implements Comparable, Comparator {
     public int compare(Object o1, Object o2) {
         return 0;
     }
+
 
 }

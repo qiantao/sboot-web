@@ -15,4 +15,8 @@ public class GridPO {
     private ObjectId id;
     @Field("member_id")
     private Integer memberId;
+
+    public String toString(){
+        return "{aaaaaa}";
+    }
 }

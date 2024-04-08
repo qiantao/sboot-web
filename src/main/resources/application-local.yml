@@ -1,12 +1,12 @@
 spring:
   application:
     name: demo
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      # 重写了CommonsMultipartResolver,需要使用
-      enabled: true
-      max-request-size: 100MB
+#  servlet:
+#    multipart:
+#      max-file-size: 100MB
+#      # 重写了CommonsMultipartResolver,需要使用
+#      enabled: true
+#      max-request-size: 100MB
   #mongodb
   data:
     mongodb:
@@ -45,7 +45,7 @@ spring:
 
   #mysql 数据源
   datasource:
-    url: jdbc:mysql://${components.mysql.host}:${components.mysql.port}/xmarket?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true&autoReconnect=true
+    url: jdbc:mysql://${components.mysql.host}:${components.mysql.port}/mdl?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true&autoReconnect=true
     username: ${components.mysql.user}
     password: ${components.mysql.pwd}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -104,13 +104,13 @@ spring:
 #########配置端口
 server:
   port: 8808
-  servlet:
-    context-path: /sboot
+#  servlet:
+#    context-path: /sboot
 
 #########配置日志
 logging:
   level:
-    com.qt.demo: info
+    com.qt.demo: DEBUG
   config: classpath:logback-spring.xml
 
 
@@ -120,13 +120,14 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+
 components:
   redis:
     host: 127.0.0.1
     port: 6379
     pwd: qiantao2114
   mysql:
-    host: 10.10.16.105
+    host: 127.0.0.1
     port: 3306
     user: root
     pwd: Perfma888.
