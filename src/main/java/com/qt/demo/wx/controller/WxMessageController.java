@@ -1,15 +1,13 @@
 package com.qt.demo.wx.controller;
 
 import com.qt.demo.common.redis.RedisCache;
-import com.qt.demo.consts.RedisConst;
 import com.qt.demo.manager.MyManager;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,15 +29,12 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("wx")
+@RequiredArgsConstructor
 public class WxMessageController {
 
-    private MyManager myManager;
-    private RedisCache redisCache;
+    private final MyManager myManager;
+    private final RedisCache redisCache;
 
-    public WxMessageController(MyManager myManager, RedisCache redisCache) {
-        this.myManager = myManager;
-        this.redisCache = redisCache;
-    }
 
     @GetMapping("/save")
     public String getMsg(@RequestParam(value = "signature",required = false ) String signature,
@@ -85,6 +80,7 @@ public class WxMessageController {
 //        String responseMessage = wechatService.processRequest(request);
 //        out.print(responseMessage);
 //        out.flush();
+
     }
 
     /**
@@ -92,7 +88,7 @@ public class WxMessageController {
      * 将xml转化为Map集合     *      * @param request     * @return
      */
     public static Map<String, String> xmlToMap(HttpServletRequest request) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         SAXReader reader = new SAXReader();
         InputStream ins = null;
         try {
@@ -119,4 +115,8 @@ public class WxMessageController {
         return map;
     }
 
+
+
+
 }
+

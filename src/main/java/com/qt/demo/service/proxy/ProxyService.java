@@ -1,7 +1,5 @@
 package com.qt.demo.service.proxy;
 
-import com.qt.demo.annotation.proxy.ProxyAnnotation;
-
 /**
  * @ClassName:
  * @Description:
@@ -13,4 +11,6 @@ public interface ProxyService {
     String testAnnotation(String type);
 
     String testProxy();
+
+    String methodProxy(Class<SubMethodService> subProxyServiceClass);
 }

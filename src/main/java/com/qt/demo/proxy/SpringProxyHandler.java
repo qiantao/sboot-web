@@ -1,17 +1,15 @@
 package com.qt.demo.proxy;
 
-import cn.hutool.core.convert.Convert;
-import com.qt.demo.annotation.proxy.ProxyAnnotation;
+import cn.hutool.json.JSONUtil;
+import com.qt.demo.annotation.proxy.MehodAnnotation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Method;
 
 /**
  * @ClassName:
@@ -32,7 +30,7 @@ public class SpringProxyHandler {
      *  *(*) 1个参数的方法
      *   .........
      */
-    @Pointcut("execution(* com.qt.demo.service.proxy.ProxyService.*())")
+    @Pointcut("execution(* com.qt.demo.service.proxy.ProxyService.testProxy())")
     public void executeService(){
         log.info("aspect->execute method ");
     }
@@ -49,6 +47,7 @@ public class SpringProxyHandler {
     public void doAfter(JoinPoint joinPoint){
         log.info("后置事件!");
     }
+
     @AfterReturning(value = "executeService()")
     public void afterReturning(JoinPoint joinPoint) {
         log.info("afterReturning advise");
@@ -62,12 +61,50 @@ public class SpringProxyHandler {
 //------------------
 
 
-    @Around(value = "@annotation(prox)")
-    public String proxyAnnotation(ProceedingJoinPoint joinPoint, ProxyAnnotation prox) throws Throwable {
-        log.info("aspect->Around annotation method ");
-        //执行原本方法
-        String result = joinPoint.proceed().toString();
-
-        return result;
+    @Pointcut(value = "@annotation(com.qt.demo.annotation.proxy.ProxyAnnotation)")
+    public void cutByAnnotation(){
+        log.info("cutByAnnotation---");
     }
+    @Before("cutByAnnotation()")
+    public void cutByAnnotationBefore(JoinPoint joinPoint){
+        log.info("cutByAnnotation Before---");
+
+    }
+    @After("cutByAnnotation()")
+    public void cutByAnnotationAfter(JoinPoint joinPoint){
+        log.info("cutByAnnotation After---");
+    }
+    @AfterReturning(value = "cutByAnnotation()",returning = "o")
+    public void afterReturningAnnotation(JoinPoint joinPoint,Object o) throws Exception {
+        log.info("cutByAnnotation after return---");
+        log.info("cutByAnnotation after {}", JSONUtil.toJsonStr(o));
+        Object[] args = joinPoint.getArgs();
+        System.out.println(joinPoint.getTarget());
+        Method[] methods = joinPoint.getTarget().getClass().getMethods();
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        MehodAnnotation annotation1 = methodSignature.getMethod().getAnnotation(MehodAnnotation.class);
+        log.info(JSONUtil.toJsonStr(annotation1));
+        log.info(args.toString());
+    }
+    @AfterThrowing("cutByAnnotation()")
+    public void afterThrowingAnnotation(JoinPoint joinPoint) {
+        log.info("cutByAnnotation after throwing---");
+    }
+
+
+
+    //---------
+
+//    @Around(value = "@annotation(prox)")
+//    public String proxyAnnotation(ProceedingJoinPoint joinPoint, ProxyAnnotation prox) throws Throwable {
+//        log.info("proxy by annotation ");
+//        //执行原本方法
+////        String result = joinPoint.proceed().toString();
+//
+//        return null;
+//    }
+
+
+
 }

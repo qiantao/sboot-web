@@ -1,10 +1,13 @@
 package com.qt.demo.util;
 
+import com.google.common.io.Files;
 import com.qt.demo.enums.RequestStatusEnum;
 import com.qt.demo.exception.MyException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * @Author MuYang @Perfma
@@ -13,22 +16,22 @@ import java.io.IOException;
  */
 public class FileUtils {
 
-    /**
-     * 新建文件对象（新建父文件夹）
-     * @param path
-     * @return
-     * @throws IOException
-     */
-    public static File createFile(String path) throws IOException {
-        File f = new File(path);
-        if(!f.getParentFile().exists()){
-            f.getParentFile().mkdirs();
-        }
-        if(!f.exists()){
-            f.createNewFile();
-        }
-        return f;
-    }
+//    /**
+//     * 新建文件对象（新建父文件夹）
+//     * @param path
+//     * @return
+//     * @throws IOException
+//     */
+//    public static File createFile(String path) throws IOException {
+//        File f = new File(path);
+//        if(!f.getParentFile().exists()){
+//            f.getParentFile().mkdirs();
+//        }
+//        if(!f.exists()){
+//            f.createNewFile();
+//        }
+//        return f;
+//    }
 
     /**
      * 在当前项目下新建文件
@@ -83,5 +86,69 @@ public class FileUtils {
             return "上传图片格式不合法";
         }
         return prefix;
+    }
+    public static String upload(byte[] bytes, String fileName) throws Exception {
+        String path = getDefaultPath();
+        String allPath = path + UUID.randomUUID() + fileName;
+        File f = createFile(allPath);
+        Files.write(bytes, f);
+        return allPath;
+    }
+
+    public static File createFile(String path) throws IOException {
+        File f = new File(path);
+        if (!f.getParentFile().exists()) {
+            f.getParentFile().mkdirs();
+        }
+        if (!f.exists()) {
+            f.createNewFile();
+        }
+        return f;
+    }
+
+    /**
+     * 默认保存路径
+     *
+     * @return
+     */
+    public static String getDefaultPath() {
+        String s = DateUtil.formatDate(new Date(), DateUtil.DATE_PATTERN_WITH_HENGXIAN);
+        return System.getProperty("user.dir") + "/file/";
+    }
+
+    public static String getTempPath() {
+        String s = DateUtil.formatDate(new Date(), DateUtil.DATE_PATTERN_WITH_HENGXIAN);
+        return System.getProperty("user.dir") + "/temp/" + s + "/";
+    }
+
+    public static String getTempPath(String uk) {
+        String s = DateUtil.formatDate(new Date(), DateUtil.DATE_PATTERN_WITH_HENGXIAN);
+        return System.getProperty("user.dir") + "/temp/" + s + "/" + uk + "/";
+    }
+
+    public static String getZipPath() {
+        String s = DateUtil.formatDate(new Date(), DateUtil.DATE_PATTERN_WITH_HENGXIAN);
+        return System.getProperty("user.dir") + "/zip/" + s + "/";
+    }
+
+    public static String getZipPath(String uk) {
+        String s = DateUtil.formatDate(new Date(), DateUtil.DATE_PATTERN_WITH_HENGXIAN);
+        return System.getProperty("user.dir") + "/zip/" + s + "/" + uk + "/";
+    }
+
+    /*
+        public static String getTemplatePath() {
+            return System.getProperty("user.dir") +File.separator+"template"+File.separator;
+        }
+
+        public static String getTempPath_() {
+            return System.getProperty("user.dir") +File.separator+"temp"+File.separator;
+        }*/
+    public static String getTemplatePath() {
+        return FileUtils.class.getResource(File.separator + "templates").toString() + File.separator;
+    }
+
+    public static String getTempPath_() {
+        return FileUtils.class.getResource(File.separator).toString() + "temp";
     }
 }

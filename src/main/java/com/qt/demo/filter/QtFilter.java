@@ -30,8 +30,4 @@ public class QtFilter implements Filter {
         
     }
 
-    @Override
-    public void destroy() {
-
-    }
 }

@@ -7,6 +7,11 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.greenrobot.eventbus.EventBus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 @Configuration
 public class BeanConfig {
@@ -20,6 +25,7 @@ public class BeanConfig {
     public EventBus eventBus2(){
         return new EventBus();
     }
+
     @Bean
     public RestHighLevelClient client() {
         // 异步httpclient连接延时配置
@@ -40,5 +46,18 @@ public class BeanConfig {
         RestHighLevelClient client = new RestHighLevelClient(builder);
         return client;
     }
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));// 支持请求方式
+        config.addAllowedOriginPattern("*");// 支持跨域
+        config.setAllowCredentials(true);// cookie
+        config.addAllowedHeader("*");// 允许请求头信息
+        config.addExposedHeader("*");// 暴露的头部信息
 
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);// 添加地址映射
+        return new CorsFilter(source);
+    }
+//....省略其他代码
 }

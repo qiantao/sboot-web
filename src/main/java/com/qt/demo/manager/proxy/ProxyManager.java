@@ -2,6 +2,7 @@ package com.qt.demo.manager.proxy;
 
 import com.qt.demo.proxy.JavaProxyHandler;
 import com.qt.demo.service.proxy.ProxyService;
+import com.qt.demo.service.proxy.SubMethodService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,4 +39,11 @@ public class ProxyManager {
         }
     }
 
+    public void methodProxy() {
+        log.info("准备进入pointCut");
+        proxyService.methodProxy(SubMethodService.class);
+
+
+
+    }
 }

@@ -17,35 +17,10 @@ spring:
       username: root
       password: qiantao2114
 
-  # kafka配置
-  kafka:
-    producer:
-      bootstrap-servers: 10.10.200.21:9092
-      topic: workflow_result
-      key-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
-      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
-      buffer-memory: 10485760
-      batch-size: 2048
-      retries: 1
-    consumer:
-      bootstrap-servers: 10.10.200.21:9092
-      topic: workflow_result
-      enable-auto-commit: false
-      max-poll-records: 30
-      group-id: test06   # ${spring.application.name}
-      key-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
-      auto-offset-reset: earliest
-    listener:
-      concurrency: 5
-      ack-mode: manual_immediate
-      type: batch
-      poll-timeout: 3000
-
 
   #mysql 数据源
   datasource:
-    url: jdbc:mysql://${components.mysql.host}:${components.mysql.port}/mdl?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true&autoReconnect=true
+    url: jdbc:mysql://${components.mysql.host}:${components.mysql.port}/${components.mysql.schema}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true&autoReconnect=true
     username: ${components.mysql.user}
     password: ${components.mysql.pwd}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -120,6 +95,12 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+    enabled-by-default: false
 
 components:
   redis:
@@ -130,7 +111,8 @@ components:
     host: 127.0.0.1
     port: 3306
     user: root
-    pwd: Perfma888.
+    pwd: qiantao2114
+    schema: tool
 
 interceptor:
   excludePath:
@@ -156,3 +138,31 @@ elasticsearch:
 showLog: false
 execTask: false
 showSwagger: true
+
+calculate:
+  notBatchConfig:
+    - systemCode: 1014
+      propertyFilterConfigList:
+        - columnName: formulaNo
+          columnValue:
+            - F00030
+          defaultValue: 0
+          remove: false
+        - columnName: formulaNo
+          columnValue:
+            - F00022
+            - F00023
+          remove: true
+    - systemCode: 1010
+      propertyFilterConfigList:
+        - columnName: formulaNo
+          columnValue:
+            - F00030
+          defaultValue: 0
+          remove: false
+        - columnName: formulaNo
+          columnValue:
+            - F00022
+            - F00023
+          remove: true
+
